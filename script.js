@@ -169,3 +169,21 @@
   reducedMotion.addEventListener('change', () => { lastMove = 0; repaint(); });
   resize();
 })();
+
+// Both WeChat controls expose the ID directly and copy it on request.
+document.querySelectorAll('[data-copy-wechat]').forEach(button => {
+  button.addEventListener('click', async () => {
+    const status = document.querySelector('#copy-status');
+    try {
+      await navigator.clipboard.writeText('13858089492');
+      status.textContent = 'WeChat ID copied: 13858089492';
+      const previous = button.innerHTML;
+      button.textContent = 'Copied · 13858089492';
+      button.disabled = true;
+      setTimeout(() => { button.innerHTML = previous; button.disabled = false; }, 1800);
+    } catch (_) {
+      status.textContent = 'WeChat ID: 13858089492 — select and copy the number.';
+      button.textContent = 'WeChat · 13858089492';
+    }
+  });
+});
